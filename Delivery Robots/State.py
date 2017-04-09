@@ -78,9 +78,19 @@ class State:
             ord += "[ "+ self.orders[i].status() + "]; "
 
         print("TIME: " + str(self.time))
-        print("IDLE:" + idles)
-        print("ON_DELIVERY:" + deliver)
-        print("ORDERS:" +ord)
+        if idles:
+            print("IDLE:" + idles)
+        else:
+            print("IDLE: 'is empty'"
+                  )
+        if deliver:
+            print("ON_DELIVERY:" + deliver)
+        else:
+            print("ON_DELIVERY: 'is empty'")
+        if ord:
+            print("ORDERS:" +ord)
+        else:
+            print("ORDERS: 'is empty'")
 
 
     #Defining equality betwen the objects of this type ( we can use state == state2 )
@@ -140,7 +150,7 @@ def solution(state):
         return False
     father = state.back
     solution(father)
-    print("############")
+    print("######################")
     state.status()
 
 
