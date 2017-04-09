@@ -55,7 +55,7 @@ def state_verification(state,explored,frontier):
 
 
 counter_start = time.time()
-print("##### BEGIN TESTE #####")
+print("##### BEGIN TEST #####")
 state = aline_test()
 uniform_cost_search(state)
 print("\nTime elapsed:" + str(time.time() - counter_start))
