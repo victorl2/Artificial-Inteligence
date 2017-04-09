@@ -1,2 +1,2 @@
 # Artificial-Inteligence
-Various problems and implementations of AI algoritms
+Various problems and implementations of AI algorithms
