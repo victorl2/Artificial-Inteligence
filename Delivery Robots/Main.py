@@ -38,22 +38,7 @@ def uniform_cost_search(state):
                 state_verification(child,explored,frontier)
 
 
-#Check if the state was already seen previously and adjust the explored or frontier list
-def state_verification(state,explored,frontier):
-    #Check if the state was ALREADY explored
-    if state in explored:
-        return False
-    #Check to see if the child is on the list TO BE explored
-    elif state in frontier:
-        # If we have a occurence we check to compare the cost and keep the lowest
-        for i in range(0, len(frontier)):
-            if frontier[i] == state and frontier[i].time > state.time:
-                frontier[i] = state
-                return False
-    else:
-        insort(frontier, state)
-
-
+#MAIN EXECUTION
 counter_start = time.time()
 print("##### BEGIN TEST #####")
 state = aline_test()
