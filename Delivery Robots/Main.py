@@ -3,13 +3,6 @@ from Tests import *
 from State import solution
 import time
 
-
-#AÇÕES POSSIVEIS
-#Associar cada "robô" a uma "ordem"
-#Avançar no tempo e finalizar uma ou mais ordens
-#Um novo estado deverá ser associado a nova ação executada
-
-
 def uniform_cost_search(state):
     frontier = [] #list with all states to expand
     explored = [] #list with all state already expanded
