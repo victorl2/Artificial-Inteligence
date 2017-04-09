@@ -10,7 +10,7 @@ def generate_case():
     state = State()
 
     #Generating ROBOTS
-    for i in range(0, randint(2, 6)):
+    for i in range(0, randint(2, 4)):
         robot = Robot(randint(0, 10), randint(0, 10))
         if (randint(0, 10) < 4):
             robot.state = "on_delivery"
@@ -19,14 +19,14 @@ def generate_case():
         else:
             state.idle.append(robot)
 
-    total_prods = randint(1, 6)
+    total_prods = randint(1, 4)
 
     #GENERATING PRODUCTS
     for i in range(0, total_prods):
         prod = Product(randint(0, 10), randint(0, 10))
         state.products.append(prod)
 
-    total_packs = randint(1, 6)
+    total_packs = randint(1, 4)
 
     #GENERATING PACKING STATIONS
     for i in range(0, total_packs):
@@ -34,12 +34,11 @@ def generate_case():
         state.packs.append(pack)
 
     #GENERATING ORDERS
-    for i in range(1, 8):
+    for i in range(1, 5):
         product = state.products[randint(0, total_prods - 1)]
         packing = state.packs[randint(0, total_packs - 1)]
         order = Order(product, packing)
         state.orders.append(order)
-
     return state
 
 def basic_test():

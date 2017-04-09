@@ -41,6 +41,6 @@ def uniform_cost_search(state):
 #MAIN EXECUTION
 counter_start = time.time()
 print("##### BEGIN TEST #####")
-state = aline_test()
+state = generate_case()
 uniform_cost_search(state)
 print("\nTime elapsed:" + str(time.time() - counter_start))
