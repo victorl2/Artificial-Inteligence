@@ -75,9 +75,11 @@ def aline_test():
     r1 = Robot(20,14)
     r2 = Robot(20,20)
     r3 = Robot(20,0)
+
     r1.time = 14
     r2.time = 8
     r3.time = 8
+
     r1.state = "on_delivery"
     r2.state = "on_delivery"
     r3.state = "on_delivery"
@@ -109,4 +111,59 @@ def aline_test():
     state.orders.append(ord1)
     state.orders.append(ord2)
     state.orders.append(ord3)
+    return state
+
+def test2():
+    state = State()
+    r1 = Robot(20,14)
+    r2 = Robot(20,20)
+    r3 = Robot(20,0)
+
+    r1.time = 14
+    r2.time = 8
+    r3.time = 8
+
+    r1.state = "on_delivery"
+    r2.state = "on_delivery"
+    r3.state = "on_delivery"
+
+    insort(state.delivery,r1)
+    insort(state.delivery,r2)
+    insort(state.delivery,r3)
+
+    pack1 = Pack(20,0)
+    pack2 = Pack(20,10)
+    pack3 = Pack(20,20)
+
+    state.packs.append(pack1)
+    state.packs.append(pack2)
+    state.packs.append(pack3)
+
+    prod1 = Product(0,0)
+    prod2 = Product(0,10)
+    prod3 = Product(0,20)
+
+    state.products.append(prod1)
+    state.products.append(prod2)
+    state.products.append(prod3)
+
+    ord1 = Order(prod1,pack1)
+    ord2 = Order(prod1,pack2)
+    ord3 = Order(prod1,pack3)
+    ord4 = Order(prod2, pack1)
+    ord5 = Order(prod2, pack2)
+    ord6 = Order(prod2, pack3)
+    ord7 = Order(prod3, pack1)
+    ord8 = Order(prod3, pack2)
+    ord9 = Order(prod3, pack3)
+
+    state.orders.append(ord1)
+    state.orders.append(ord2)
+    state.orders.append(ord3)
+    state.orders.append(ord4)
+    state.orders.append(ord5)
+    state.orders.append(ord6)
+    state.orders.append(ord7)
+    state.orders.append(ord8)
+    state.orders.append(ord9)
     return state

@@ -1,17 +1,20 @@
 from bisect import *
 import threading
 
+weight = 2 #weight added to the heuristic function
 #A representation of the state of the world.
 #Multiple robots delivering packages simultaneously
 class State:
     def __init__(self, state = None):
         self.back = state #father state ( state that originated this one )
+        self.cost = 0
         self.time = 0 #total amount of time passed
         self.idle = [] #List of all idle robots
         self.delivery = [] #List of all robots on delivery
         self.products = [] #List of all avaliable products
         self.orders = [] #List containing all not atended orders
         self.packs = [] #List of all available packaging stations
+
 
     #Send the request for a robot complete a given order ( only the request, not the action )
     def execute_order(self ,robot ,order):
@@ -35,25 +38,37 @@ class State:
 
     #Progress though time x units, where x is the time required to finish the fastest
     #delivery currently being performed by a robot
-    def progress_time(self):
+    #h_active: True = calculate cost with heuristic , False = no heuristic (cost = time) ]
+    def progress_time(self,h_active):
 
         passed = 0
         if self.delivery:
+
             robot = self.delivery.pop(0) #pick up the robot doing the fastest delivery
             passed = robot.time #time needed to perform the fastest delivery
             self.time+= passed #add the time of the action on the total time counter
+
+            #calculate the cost for the current state
+            if h_active:
+                self.cost = self.time + self.heuristic()
+            else:
+                self.cost = self.time
 
             robot.state="idle"
             robot.time = 0
             self.idle.append(robot)
 
             #correct the time needed for all other robots
-            for r in self.delivery:
+            v = 0
+            while (v < len(self.delivery)):
+                r = self.delivery[v]
                 r.time -= passed
                 if r.time <= 0:
                     r.state = "idle"
-                    self.delivery.remove(r)
+                    self.delivery.pop(v)
                     self.idle.append(r)
+                else:
+                    v+=1
         return passed
 
     #Check if this is the END state ( no more orders and all robots are idle )
@@ -66,7 +81,7 @@ class State:
         idles = ""
         deliver = ""
         ord = ""
-
+        result = ""
         for i in range(0,len(self.idle)):
             idles += "[ "+ self.idle[i].status() + "]; "
 
@@ -77,25 +92,25 @@ class State:
         for i in range(0,len(self.orders)):
             ord += "[ "+ self.orders[i].status() + "]; "
 
-        print("TIME: " + str(self.time))
+        result+=("TIME: " + str(self.time) + "\n")
         if idles:
-            print("IDLE:" + idles)
+            result +=("IDLE:" + idles + "\n")
         else:
-            print("IDLE: 'is empty'"
-                  )
+            result +=("IDLE: 'is empty'\n")
         if deliver:
-            print("ON_DELIVERY:" + deliver)
+            result +=("ON_DELIVERY:" + deliver + "\n")
         else:
-            print("ON_DELIVERY: 'is empty'")
+            result +=("ON_DELIVERY: 'is empty'\n")
         if ord:
-            print("ORDERS:" +ord)
+            result +=("ORDERS:" +ord + "\n")
         else:
-            print("ORDERS: 'is empty'")
+            result +=("ORDERS: 'is empty'" +"\n")
+        return result
 
 
     #Defining equality betwen the objects of this type ( we can use state == state2 )
     def __eq__(self, other):
-        if self.time != other.time:
+        if self.cost != other.cost:
             return False
 
         high = [len(self.orders) , len(self.idle) , len(self.delivery) ]
@@ -122,36 +137,38 @@ class State:
 
     #Implementing the operator "<" for the state object
     def __lt__(self,other):
-        if self.time < other.time:
+        if self.cost < other.cost:
             return True
         return False
 
     #Implementing the operator "<=" for the state object
     def __le__(self, other):
-        if self.__eq__(self,other) or self.time < other.time:
+        if self.__eq__(self,other) or self.cost < other.cost:
             return True
         return False
 
     #Implementing the operator ">=" for the state object
     def __ge__(self, other):
-        if self.__eq__(self,other) or self.time > other.time:
+        if self.__eq__(self,other) or self.cost > other.cost:
             return True
         return False
 
     #Implementing the operator ">" for the state object
     def __gt__(self, other):
-        if self.time > other.time:
+        if self.cost > other.cost:
             return True
         return False
+
+    #Heuristic function
+    def heuristic(self):
+        return len(self.orders) * 3
 
 #Check if the current state is the solution
 def solution(state):
     if state is None:
-        return False
+        return ""
     father = state.back
-    solution(father)
-    print("######################")
-    state.status()
+    return solution(father) + str("######################\n" + state.status())
 
 
 #Check if the state was already seen previously and adjust the explored or frontier list
@@ -163,8 +180,9 @@ def state_verification(state,explored,frontier):
     elif state in frontier:
         # If we have a occurence we check to compare the cost and keep the lowest
         for i in range(0, len(frontier)):
-            if frontier[i] == state and frontier[i].time > state.time:
+            if frontier[i] == state and frontier[i].cost > state.cost:
                 frontier[i] = state
                 return False
     else:
         insort(frontier, state)
+

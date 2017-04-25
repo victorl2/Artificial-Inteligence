@@ -22,14 +22,20 @@ class Robot:
     #Assigns the robot to one order
     def process_order(self,order):
         self.state = "on_delivery"
-        x = abs(self.x - order.product.x)
-        y = abs(self.y - order.product.y)
+
+        #distance until the product origin
+        r1 = abs(self.x - order.product.x) + abs(self.y - order.product.y)
+
+        #distance until destination
+        r2 = abs(order.product.x - order.pack.x) + abs(order.product.y - order.pack.y)
 
         #Total amount of time needed to process the order
-        #(x + y): time needed to go pick up the product
-        #(x - order.pack.x) + (y - order.pack.y):
         # time needed to go from the product position to the packing station
-        self.time = (x + y) + abs(x - order.pack.x) + abs(y - order.pack.y)
+        self.time = r1 + r2
+
+        #new location for the robot
+        self.x = order.pack.x
+        self.y = order.pack.y
 
     #A informative string of the current workings of the robot
     def status(self):
