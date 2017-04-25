@@ -65,7 +65,7 @@ def search(state , heuristic ):
                 child.execute_order(child.idle[i],child.orders[j])
                 state_verification(child,explored,frontier)
 
-        return ""
+    return ""
 
 
 if __name__ == "__main__":
