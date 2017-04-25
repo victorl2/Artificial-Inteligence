@@ -168,7 +168,7 @@ def solution(state):
     if state is None:
         return ""
     father = state.back
-    return solution(father) + str("######################\n" + state.status())
+    return str(solution(father)) + str("######################\n" + state.status())
 
 
 #Check if the state was already seen previously and adjust the explored or frontier list
