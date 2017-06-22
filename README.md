@@ -1,4 +1,6 @@
 # Artificial-Inteligence
+Conjunto de vários problemas com suas diferentes soluções e abordagens sendo apresentadas.
+
 <h2>Delivery robots</h2>
 Implementação do algoritmo A* para informar os passos de um grupo de robos recebendo e entregando pacotes.
 
