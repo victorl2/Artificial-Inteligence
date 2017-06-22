@@ -5,4 +5,5 @@ Implementação do algoritmo A* para informar os passos de um grupo de robos rec
 <h2>Planejamento de aula</h2>
 Planejamento ações para uma sala inteligente, informa o conjunto de ações mais eficientes para uma determinada sala segundo as aulas e perfis de professores informados.
 
-#
+<h2>SAT genetic algorithm</h2>
+Implementação de um algoritmo genético em C para resolução de um caso particular do problema SAT.
