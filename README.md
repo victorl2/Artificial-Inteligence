@@ -1,4 +1,4 @@
-# Artificial-Inteligence
+# Artificial Inteligence Problems
 Conjunto de vários problemas com suas diferentes soluções e abordagens sendo apresentadas.
 
 <h2>Delivery robots</h2>
