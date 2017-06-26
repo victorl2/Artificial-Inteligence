@@ -10,6 +10,7 @@ Algoritmo genético para o problema sat:
 expressão: (D and A) and (C or D)  and (A and B and !E) and (!E and A) and (F) and (C or !F)
 ***************************************************
 ***************************************************/
+
 //Encapsulando o cromossomo dentro de indivíduo
 typedef struct individual {
   char * chromosome;
@@ -27,7 +28,57 @@ typedef struct LIST {
   NODE * first;
 }LIST;
 
+/***************************************************************/
+/*** DECLARAÇÕES ***********************************************/
+
+//Variáveis globais para medição
+int GEN = 1; //contando as gerações
+char * BESTCHROMO; //melhor cromossomo parcial
+int MAXFIT = 0; //melhor fitness parcial
+int TOTALREP = 0; //quantidade de produções ocorridas na execução
+int TOTALMUT = 0; //total de mutações ocorridas na execução
+
+//Cria uma lista de IND (indivíduos)
+LIST * createList();
+
+//Cria um nó ( únidade da lista de IND)
+NODE * createNode();
+
+//Libera o espaço de memoria alocada a um nó
+void deallocNode(NODE*n);
+
+//Libera o espaço de memoria alocado a uma lista
+void deallocList(LIST * l);
+
+/*Cria uma nova instancia de indivíduo para o
+cromossomo informado e o insere lista*/
+void addList(LIST * list , char * chromosome);
+
+//Funções sobre o algoritmo genético
+
+//Calcula a performance(fitness) do indivíduos
 int fitness(IND * c);
+
+//Aplica mutação sobre o indivíduo
+void mutate(IND * current);
+
+//Cria um indivíduo
+IND * createIndividual(int size);
+
+//Operador de reprodução entre 2 indivíduos
+IND * reproduce(IND * first, IND * second);
+
+//Cria uma população aleatória de indivíduos
+LIST * randomPopulation(int size,int chromSize);
+
+//Algoritmo genético
+IND * geneticAlgorithm(LIST * population,int goal,int mutateProbability,int elitismAmount);
+
+//Converte char em inteiro
+int cti(char digit);
+
+/***************************************************************/
+/*** DEFINIÇÕES ************************************************/
 
 void deallocNode(NODE*n){
   if(!n)return;
@@ -35,11 +86,13 @@ void deallocNode(NODE*n){
   free(n->value);
   free(n);
 }
+
 void deallocList(LIST * l){
   if(!l)return
   deallocNode(l->first);
   free(l);
 }
+
 //Cria um novo indivíuo ( encapsulamento do cromossomo )
 IND * createIndividual(int size){
   IND * new  = malloc(sizeof(IND));
@@ -143,12 +196,6 @@ int fitness(IND * c){
   c->fitness = (D && A) + (C || D)  + (A && B && !E) + (!E && A) + (F) + (C || !F);
   return c->fitness;
 }
-
-int GEN = 1; //contando as gerações
-char * BESTCHROMO;//melhor cromossomo parcial
-int MAXFIT = 0;//melhor fitness parcial
-int TOTALREP = 0;
-int TOTALMUT = 0;
 
 //Algoritmo Genético
 IND * geneticAlgorithm(LIST * population,int goal,int mutateProbability,int elitismAmount){
