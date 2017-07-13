@@ -8,4 +8,4 @@ Implementação do algoritmo A* para informar os passos de um grupo de robos rec
 Cria um plano de ação para uma sala de aula inteligente; informa o conjunto de ações mais eficiente para uma sala de aula. Os dados coletados análisados são:aulas ministradas e perfis dos professores.
 
 <h2>SAT genetic algorithm</h2>
-Implementação de um algoritmo genético em C para resolução de um caso particular do problema SAT.
+Implementação de um algoritmo genético para resolução de um caso particular do problema SAT.
